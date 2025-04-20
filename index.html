@@ -1,0 +1,681 @@
+        <div id="step5" class="step">
+            <div class="container" style="display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 0;">
+                <div class="form-container" style="text-align: center; background: white; border-radius: 20px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); width: 100%; max-width: 500px; padding: 30px 20px;">
+                    <div style="margin: 20px auto; width: 60px; height: 60px;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#F05545" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                    <h2 style="font-size: 26px; margin-bottom: 20px; color: #333;">Grazie per il tuo interesse!</h2>
+                    <p style="font-size: 16px; margin-bottom: 30px; color: #666; line-height: 1.5;">
+                        Abbiamo ricevuto la tua richiesta. Un nostro consulente ti contattera al piu presto per discutere di come massimizzare il rendimento del tuo immobile con gli affitti brevi.
+                    </p>
+                    <div style="background-color: #f8f8f8; border-radius: 10px; padding: 15px; margin-bottom: 30px;">
+                        <p style="font-size: 14px; color: #666; margin-bottom: 5px;">
+                            <strong>Orari di contatto:</strong> Lun-Ven, 9:00 - 18:00
+                        </p>
+                        <p style="font-size: 14px; color: #666;">
+                            <strong>Email:</strong> simone.licitra.26@gmail.com
+                        </p>
+                    </div>
+                    <button class="btn-primary" style="max-width: 200px; margin: 0 auto; display: block;" onclick="goToStep(1)">Torna alla Home</button>
+                </div>
+            </div>
+        </div><!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habita Estimator - Calcolo Affitti Brevi</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M15N5VVFFL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-M15N5VVFFL');
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background-color: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            background-color: #F05545;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            font-size: 16px;
+            margin-bottom: 25px;
+        }
+        
+        .btn-primary {
+            background-color: #F05545;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: #d64c3e;
+        }
+        
+        .btn-white {
+            background-color: white;
+            color: #333;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-white:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .form-container {
+            padding: 30px 20px;
+        }
+        
+        .form-container h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #F05545;
+        }
+        
+        .error-message {
+            color: #F05545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .results {
+            padding: 30px 20px;
+        }
+        
+        .results h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .estimated-income {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        
+        .comparison {
+            display: flex;
+            justify-content: space-between;
+            margin: 25px 0;
+            text-align: center;
+            padding: 0 15px;
+        }
+        
+        .comparison-item {
+            flex: 1;
+            padding: 10px;
+            position: relative;
+        }
+        
+        .comparison-value {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .comparison-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .comparison-bar-container {
+            height: 100px;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .comparison-bar {
+            width: 80%;
+            margin: 0 auto;
+            position: relative;
+            transition: height 1s ease-in-out;
+        }
+        
+        .short-term {
+            background-color: #F05545;
+        }
+        
+        .long-term {
+            background-color: #eee;
+        }
+        
+        .testimonial {
+            margin: 20px 0;
+            font-style: italic;
+            font-size: 15px;
+            color: #555;
+        }
+        
+        .testimonial-author {
+            font-weight: 500;
+            font-style: normal;
+            margin-bottom: 5px;
+        }
+        
+        .step {
+            display: none;
+        }
+        
+        .step.active {
+            display: block;
+        }
+        
+        .back-button {
+            background: none;
+            border: none;
+            color: #666;
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 15px;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .back-button:hover {
+            color: #F05545;
+        }
+        
+        .required-field {
+            color: #F05545;
+            margin-left: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="step1" class="step active">
+            <div class="header">
+                <h1>Quanto potrebbe renderti la tua casa con gli affitti brevi?</h1>
+                <p>Scoprilo in 60 secondi con Habita Estimator</p>
+                <button class="btn-white" onclick="goToStep(2)">Inizia la simulazione</button>
+            </div>
+        </div>
+
+        <div id="step2" class="step">
+            <div class="form-container">
+                <h2>Inserisci i dati dell'immobile</h2>
+                <div class="form-group">
+                    <select id="zona" class="form-control">
+                        <option value="">Zona/città</option>
+                        <option value="agrigento">Agrigento</option>
+                        <option value="alessandria">Alessandria</option>
+                        <option value="ancona">Ancona</option>
+                        <option value="aosta">Aosta</option>
+                        <option value="arezzo">Arezzo</option>
+                        <option value="ascoli-piceno">Ascoli Piceno</option>
+                        <option value="asti">Asti</option>
+                        <option value="avellino">Avellino</option>
+                        <option value="bari">Bari</option>
+                        <option value="barletta-andria-trani">Barletta-Andria-Trani</option>
+                        <option value="belluno">Belluno</option>
+                        <option value="benevento">Benevento</option>
+                        <option value="bergamo">Bergamo</option>
+                        <option value="biella">Biella</option>
+                        <option value="bologna">Bologna</option>
+                        <option value="bolzano">Bolzano</option>
+                        <option value="brescia">Brescia</option>
+                        <option value="brindisi">Brindisi</option>
+                        <option value="cagliari">Cagliari</option>
+                        <option value="caltanissetta">Caltanissetta</option>
+                        <option value="campobasso">Campobasso</option>
+                        <option value="carbonia-iglesias">Carbonia-Iglesias</option>
+                        <option value="caserta">Caserta</option>
+                        <option value="catania">Catania</option>
+                        <option value="catanzaro">Catanzaro</option>
+                        <option value="chieti">Chieti</option>
+                        <option value="como">Como</option>
+                        <option value="cosenza">Cosenza</option>
+                        <option value="cremona">Cremona</option>
+                        <option value="crotone">Crotone</option>
+                        <option value="cuneo">Cuneo</option>
+                        <option value="enna">Enna</option>
+                        <option value="fermo">Fermo</option>
+                        <option value="ferrara">Ferrara</option>
+                        <option value="firenze">Firenze</option>
+                        <option value="foggia">Foggia</option>
+                        <option value="forli-cesena">Forlì-Cesena</option>
+                        <option value="frosinone">Frosinone</option>
+                        <option value="genova">Genova</option>
+                        <option value="gorizia">Gorizia</option>
+                        <option value="grosseto">Grosseto</option>
+                        <option value="imperia">Imperia</option>
+                        <option value="isernia">Isernia</option>
+                        <option value="la-spezia">La Spezia</option>
+                        <option value="laquila">L'Aquila</option>
+                        <option value="latina">Latina</option>
+                        <option value="lecce">Lecce</option>
+                        <option value="lecco">Lecco</option>
+                        <option value="livorno">Livorno</option>
+                        <option value="lodi">Lodi</option>
+                        <option value="lucca">Lucca</option>
+                        <option value="macerata">Macerata</option>
+                        <option value="mantova">Mantova</option>
+                        <option value="massa-carrara">Massa-Carrara</option>
+                        <option value="matera">Matera</option>
+                        <option value="messina">Messina</option>
+                        <option value="milano">Milano</option>
+                        <option value="modena">Modena</option>
+                        <option value="monza">Monza</option>
+                        <option value="napoli">Napoli</option>
+                        <option value="novara">Novara</option>
+                        <option value="nuoro">Nuoro</option>
+                        <option value="ogliastra">Ogliastra</option>
+                        <option value="olbia-tempio">Olbia-Tempio</option>
+                        <option value="oristano">Oristano</option>
+                        <option value="padova">Padova</option>
+                        <option value="palermo">Palermo</option>
+                        <option value="parma">Parma</option>
+                        <option value="pavia">Pavia</option>
+                        <option value="perugia">Perugia</option>
+                        <option value="pesaro-urbino">Pesaro e Urbino</option>
+                        <option value="pescara">Pescara</option>
+                        <option value="piacenza">Piacenza</option>
+                        <option value="pisa">Pisa</option>
+                        <option value="pistoia">Pistoia</option>
+                        <option value="pordenone">Pordenone</option>
+                        <option value="potenza">Potenza</option>
+                        <option value="prato">Prato</option>
+                        <option value="ragusa">Ragusa</option>
+                        <option value="ravenna">Ravenna</option>
+                        <option value="reggio-calabria">Reggio Calabria</option>
+                        <option value="reggio-emilia">Reggio Emilia</option>
+                        <option value="rieti">Rieti</option>
+                        <option value="rimini">Rimini</option>
+                        <option value="roma">Roma</option>
+                        <option value="rovigo">Rovigo</option>
+                        <option value="salerno">Salerno</option>
+                        <option value="medio-campidano">Medio Campidano</option>
+                        <option value="sassari">Sassari</option>
+                        <option value="savona">Savona</option>
+                        <option value="siena">Siena</option>
+                        <option value="siracusa">Siracusa</option>
+                        <option value="sondrio">Sondrio</option>
+                        <option value="taranto">Taranto</option>
+                        <option value="teramo">Teramo</option>
+                        <option value="terni">Terni</option>
+                        <option value="torino">Torino</option>
+                        <option value="trapani">Trapani</option>
+                        <option value="trento">Trento</option>
+                        <option value="treviso">Treviso</option>
+                        <option value="trieste">Trieste</option>
+                        <option value="udine">Udine</option>
+                        <option value="varese">Varese</option>
+                        <option value="venezia">Venezia</option>
+                        <option value="verbano-cusio-ossola">Verbano-Cusio-Ossola</option>
+                        <option value="vercelli">Vercelli</option>
+                        <option value="verona">Verona</option>
+                        <option value="vibo-valentia">Vibo Valentia</option>
+                        <option value="vicenza">Vicenza</option>
+                        <option value="viterbo">Viterbo</option>
+                    </select>
+                    <div class="error-message" id="zona-error">Seleziona una zona</div>
+                </div>
+                <div class="form-group">
+                    <select id="tipo" class="form-control">
+                        <option value="">Tipo di immobile</option>
+                        <option value="monolocale">Monolocale</option>
+                        <option value="bilocale">Bilocale</option>
+                        <option value="trilocale">Trilocale</option>
+                        <option value="quadrilocale">Quadrilocale</option>
+                        <option value="villa">Villa</option>
+                    </select>
+                    <div class="error-message" id="tipo-error">Seleziona un tipo di immobile</div>
+                </div>
+                <div class="form-group">
+                    <input type="number" id="ospiti" class="form-control" placeholder="Numero massimo ospiti">
+                    <div class="error-message" id="ospiti-error">Inserisci il numero di ospiti</div>
+                </div>
+                <div class="form-group">
+                    <input type="number" id="giorni" class="form-control" placeholder="Giorni disponibili all'anno">
+                    <div class="error-message" id="giorni-error">Inserisci i giorni disponibili</div>
+                </div>
+                <button class="btn-primary" onclick="goToStep(3)">Calcola</button>
+            </div>
+        </div>
+
+        <div id="step3" class="step">
+            <div class="form-container">
+                <h2>Inserisci i tuoi dati per vedere i risultati</h2>
+                <div class="form-group">
+                    <input type="text" id="nome" class="form-control" placeholder="Nome e cognome">
+                    <div class="error-message" id="nome-error">Inserisci il tuo nome</div>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" class="form-control" placeholder="Email">
+                    <div class="error-message" id="email-error">Inserisci un'email valida</div>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="telefono" class="form-control" placeholder="Telefono">
+                    <div class="error-message" id="telefono-error">Inserisci un telefono valido</div>
+                </div>
+                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">
+                    <span class="required-field">*</span> Email o telefono sono obbligatori per procedere
+                </p>
+                <button class="btn-primary" onclick="validateAndSubmit()">Mostra risultati</button>
+                <button class="back-button" onclick="goToStep(2)">Torna indietro</button>
+            </div>
+        </div>
+
+        <div id="step4" class="step">
+            <div class="results">
+                <h2>La tua stima:</h2>
+                <p>Il tuo immobile potrebbe generare fino a</p>
+                <div class="estimated-income">&euro; <span id="estimated-amount">1.450</span> al mese</div>
+                <p>con gli affitti brevi</p>
+                
+                <div class="comparison">
+                    <div class="comparison-item">
+                        <div class="comparison-value">&euro;<span id="long-term-value">700</span>/mese</div>
+                        <div class="comparison-label">Affitto lungo termine</div>
+                        <div class="comparison-bar-container">
+                            <div class="comparison-bar long-term" id="long-term-bar"></div>
+                        </div>
+                    </div>
+                    <div class="comparison-item">
+                        <div class="comparison-value">&euro;<span id="short-term-value">1.450</span>/mese</div>
+                        <div class="comparison-label">Affitto breve termine</div>
+                        <div class="comparison-bar-container">
+                            <div class="comparison-bar short-term" id="short-term-bar"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <p class="testimonial-author"><span id="testimonial-name">Simone G.</span> &mdash; <span id="testimonial-city">Monza</span></p>
+                    <p id="testimonial-text">"Non pensavo che un bilocale potesse rendermi cosi tanto. Il team Habita ha fatto tutto al posto mio."</p>
+                </div>
+                
+                <button class="btn-primary" onclick="goToStep(5)">Si, voglio guadagnare con la mia casa</button>
+                <button class="back-button" onclick="goToStep(1)">Inizia una nuova stima</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goToStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.step').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Show the current step
+            document.getElementById('step' + step).classList.add('active');
+            
+            // If going to step 4, calculate and show results
+            if (step === 4) {
+                calculateResults();
+            }
+        }
+        
+        function validateAndSubmit() {
+            let isValid = true;
+            const nome = document.getElementById('nome').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const telefono = document.getElementById('telefono').value.trim();
+            
+            // Reset error messages
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // Validate name
+            if (nome === '') {
+                document.getElementById('nome-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Validate email OR phone (at least one is required)
+            if (email === '' && telefono === '') {
+                document.getElementById('email-error').style.display = 'block';
+                document.getElementById('telefono-error').style.display = 'block';
+                isValid = false;
+            } else {
+                // If email is provided, validate it
+                if (email !== '' && !validateEmail(email)) {
+                    document.getElementById('email-error').style.display = 'block';
+                    isValid = false;
+                }
+                
+                // If phone is provided, validate it
+                if (telefono !== '' && !validatePhone(telefono)) {
+                    document.getElementById('telefono-error').style.display = 'block';
+                    isValid = false;
+                }
+            }
+            
+            if (isValid) {
+                // Get random testimonial data
+                const randomTestimonial = getRandomTestimonial();
+                
+                // Display testimonial with random name and city
+                document.getElementById('testimonial-name').textContent = randomTestimonial.name;
+                document.getElementById('testimonial-city').textContent = randomTestimonial.city;
+                
+                // Change testimonial text based on property type
+                const tipo = document.getElementById('tipo').value;
+                if (tipo === 'monolocale') {
+                    document.getElementById('testimonial-text').textContent = 
+                        "\"Non pensavo che un monolocale potesse rendermi cosi tanto. Il team Habita ha fatto tutto al posto mio.\"";
+                } else if (tipo === 'bilocale') {
+                    document.getElementById('testimonial-text').textContent = 
+                        "\"Non pensavo che un bilocale potesse rendermi cosi tanto. Il team Habita ha fatto tutto al posto mio.\"";
+                } else if (tipo === 'trilocale') {
+                    document.getElementById('testimonial-text').textContent = 
+                        "\"Con il mio trilocale ho raddoppiato l'entrata rispetto all'affitto tradizionale. Grazie Habita!\"";
+                } else if (tipo === 'quadrilocale') {
+                    document.getElementById('testimonial-text').textContent = 
+                        "\"Il mio quadrilocale ora produce un reddito costante. Habita gestisce tutto e io mi godo i profitti.\"";
+                } else if (tipo === 'villa') {
+                    document.getElementById('testimonial-text').textContent = 
+                        "\"La mia villa era inutilizzata gran parte dell'anno. Ora e' una fonte di reddito eccezionale.\"";
+                } else {
+                    document.getElementById('testimonial-text').textContent = 
+                        "\"Non pensavo che il mio immobile potesse rendermi cosi tanto. Il team Habita ha fatto tutto al posto mio.\"";
+                }
+                
+                goToStep(4);
+            }
+        }
+        
+        function getRandomTestimonial() {
+            const testimonials = [
+                { name: "Marco R.", city: "Milano" },
+                { name: "Laura B.", city: "Roma" },
+                { name: "Simone G.", city: "Monza" },
+                { name: "Giulia T.", city: "Firenze" },
+                { name: "Andrea M.", city: "Torino" },
+                { name: "Francesca P.", city: "Bologna" },
+                { name: "Davide C.", city: "Napoli" },
+                { name: "Chiara S.", city: "Verona" },
+                { name: "Roberto D.", city: "Venezia" },
+                { name: "Alessandra N.", city: "Bari" }
+            ];
+            
+            // Get a random testimonial
+            return testimonials[Math.floor(Math.random() * testimonials.length)];
+        }
+        
+        function validateEmail(email) {
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email.toLowerCase());
+        }
+        
+        function validatePhone(phone) {
+            // Basic validation for Italian phone numbers
+            const re = /^[0-9+\s]{8,15}$/;
+            return re.test(phone);
+        }
+        
+        function calculateResults() {
+            // Get form values
+            const zona = document.getElementById('zona').value;
+            const tipo = document.getElementById('tipo').value;
+            const ospiti = parseInt(document.getElementById('ospiti').value) || 2;
+            const giorni = parseInt(document.getElementById('giorni').value) || 180;
+            
+            // Base rates per night based on property type (simplified calculation)
+            const baseRates = {
+                'monolocale': 65,
+                'bilocale': 85,
+                'trilocale': 120,
+                'quadrilocale': 160,
+                'villa': 250
+            };
+            
+            // City multipliers for all Italian provinces
+            const cityMultipliers = {
+                'agrigento': 0.9, 'alessandria': 0.85, 'ancona': 0.95, 'aosta': 1.0,
+                'arezzo': 0.9, 'ascoli-piceno': 0.85, 'asti': 0.85, 'avellino': 0.8,
+                'bari': 1.05, 'barletta-andria-trani': 0.85, 'belluno': 0.9, 'benevento': 0.8,
+                'bergamo': 1.0, 'biella': 0.8, 'bologna': 1.15, 'bolzano': 1.2,
+                'brescia': 1.05, 'brindisi': 0.9, 'cagliari': 1.0, 'caltanissetta': 0.75,
+                'campobasso': 0.75, 'carbonia-iglesias': 0.8, 'caserta': 0.8, 'catania': 1.0,
+                'catanzaro': 0.85, 'chieti': 0.8, 'como': 1.05, 'cosenza': 0.85,
+                'cremona': 0.85, 'crotone': 0.75, 'cuneo': 0.85, 'enna': 0.75,
+                'fermo': 0.8, 'ferrara': 0.9, 'firenze': 1.25, 'foggia': 0.85,
+                'forli-cesena': 0.9, 'frosinone': 0.85, 'genova': 1.1, 'gorizia': 0.85,
+                'grosseto': 0.95, 'imperia': 1.0, 'isernia': 0.75, 'la-spezia': 1.0,
+                'laquila': 0.85, 'latina': 0.9, 'lecce': 1.0, 'lecco': 0.95,
+                'livorno': 1.0, 'lodi': 0.9, 'lucca': 1.0, 'macerata': 0.85,
+                'mantova': 0.9, 'massa-carrara': 0.9, 'matera': 0.9, 'messina': 0.9,
+                'milano': 1.3, 'modena': 1.0, 'monza': 1.1, 'napoli': 1.15,
+                'novara': 0.9, 'nuoro': 0.8, 'ogliastra': 0.8, 'olbia-tempio': 1.1,
+                'oristano': 0.8, 'padova': 1.05, 'palermo': 1.05, 'parma': 1.0,
+                'pavia': 0.9, 'perugia': 1.0, 'pesaro-urbino': 0.9, 'pescara': 0.95,
+                'piacenza': 0.9, 'pisa': 1.05, 'pistoia': 0.9, 'pordenone': 0.9,
+                'potenza': 0.8, 'prato': 0.95, 'ragusa': 0.9, 'ravenna': 1.0,
+                'reggio-calabria': 0.85, 'reggio-emilia': 0.95, 'rieti': 0.8, 'rimini': 1.1,
+                'roma': 1.4, 'rovigo': 0.8, 'salerno': 1.0, 'medio-campidano': 0.75,
+                'sassari': 0.95, 'savona': 1.0, 'siena': 1.05, 'siracusa': 0.95,
+                'sondrio': 0.85, 'taranto': 0.85, 'teramo': 0.85, 'terni': 0.85,
+                'torino': 1.05, 'trapani': 0.9, 'trento': 1.15, 'treviso': 1.0,
+                'trieste': 1.0, 'udine': 0.95, 'varese': 0.95, 'venezia': 1.5,
+                'verbano-cusio-ossola': 0.9, 'vercelli': 0.8, 'verona': 1.1, 'vibo-valentia': 0.8,
+                'vicenza': 0.95, 'viterbo': 0.85
+            };
+            
+            // Calculate base rate
+            let baseRate = baseRates[tipo] || 85;
+            let cityMultiplier = cityMultipliers[zona] || 1.0;
+            
+            // Add extra per guest (after the first 2)
+            const extraPerGuest = 15;
+            const extraGuests = Math.max(0, ospiti - 2);
+            
+            // Calculate daily rate
+            const dailyRate = (baseRate + (extraGuests * extraPerGuest)) * cityMultiplier;
+            
+            // Calculate monthly revenue (assuming 70% occupancy of available days)
+            const occupancyRate = 0.7;
+            const availableDaysPerMonth = giorni / 12;
+            const monthlyRevenue = Math.round(dailyRate * availableDaysPerMonth * occupancyRate);
+            
+            // Estimate long-term rental (about 45-55% of short-term)
+            const longTermRate = Math.round(monthlyRevenue * 0.48);
+            
+            // Update DOM with proper Euro symbol
+            document.getElementById('estimated-amount').textContent = monthlyRevenue.toLocaleString('it-IT');
+            document.getElementById('short-term-value').textContent = monthlyRevenue.toLocaleString('it-IT');
+            document.getElementById('long-term-value').textContent = longTermRate.toLocaleString('it-IT');
+            
+            // Update bars with animation
+            setTimeout(() => {
+                const shortTermBar = document.getElementById('short-term-bar');
+                const longTermBar = document.getElementById('long-term-bar');
+                
+                shortTermBar.style.height = '100%';
+                longTermBar.style.height = Math.max(30, Math.round(longTermRate / monthlyRevenue * 100)) + '%';
+            }, 100);
+        }
+        
+        // Initial validation setup when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const formControls = document.querySelectorAll('.form-control');
+            formControls.forEach(control => {
+                control.addEventListener('input', function() {
+                    // Hide error message when user starts typing
+                    const errorId = this.id + '-error';
+                    const errorEl = document.getElementById(errorId);
+                    if (errorEl) {
+                        errorEl.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
